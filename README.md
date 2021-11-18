@@ -1,7 +1,7 @@
 # Handwritten digits recognition
 - [Feedforward Neural Network](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/model_ffnn.ipynb)
-   - Create model
-   - Train model
+   - Create model (using [PyTorch](https://pytorch.org/get-started/locally/) with CUDA)
+   - Train model (using dataset [MNIST](https://deepai.org/dataset/mnist))
    - Evaluate model
       - Loss
       - Accuracy
@@ -9,22 +9,21 @@
       - Testing on random data
       - Build confusion matrix
 - [Convolutional Neural Network](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/model_ffnn.ipynb)
-   - Create model
-   - Train model
+   - Create model (using [PyTorch](https://pytorch.org/get-started/locally/) with CUDA)
+   - Train model (using dataset [MNIST](https://deepai.org/dataset/mnist))
    - Evaluate model
       - Loss
       - Accuracy
    - Test model
       - Testing on random data
       - Build confusion matrix
-- Graphical User Interface (GUI)
-   - Feedforward Neural Network
-      - [black canvas](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/ffnn_black.py)
-      - [white canvas](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/ffnn_white.py)
-   - Convolutional Neural Network
-      - [black canvas](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/cnn_black.py)
-      - [white canvas](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/cnn_white.py)
-   - [Common](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/main.py)
+- Graphical User Interface (using [OpenCV](https://pypi.org/project/opencv-python/))
+    - Pre-setting
+    - Select model
+    - Load model
+    - Select color
+    - Set colors
+    - Run test 
 
 ## Feedforward Neural Network
 Create model
@@ -230,8 +229,6 @@ plt.show()
 Result
 
 ![ffnn_matrix](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/illustrations/ffnn_matrix.jpg)
-
------
 
 ## Convalutional Neural Network
 Create model
@@ -472,12 +469,22 @@ Result
 
 -----
 
-Used by:
-- dataset [MNIST](https://deepai.org/dataset/mnist)
-- [PyTorch](https://pytorch.org/get-started/locally/) with CUDA
-- [OpenCV](https://pypi.org/project/opencv-python/)
+## Graphical User Interface (GUI)
+- Pre-setting
+- Select model
+- Load model
+- Select color
+- Set colors
+- Run test 
 
------
+- Feedforward Neural Network
+    - [black canvas](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/ffnn_black.py)
+    - [white canvas](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/ffnn_white.py)
+- Convolutional Neural Network
+    - [black canvas](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/cnn_black.py)
+    - [white canvas](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/cnn_white.py)
+    - [Common](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/main.py)
+
 
 ## Result
 ![res](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/illustrations/draw_digit.gif)
