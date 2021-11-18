@@ -5,6 +5,8 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
+colorText = (255, 0, 255)
+
 # ############
 # SELECT MODEL
 # ############
@@ -12,15 +14,19 @@ import torch.nn.functional as F
 # create canvas for model selection
 canvas = np.zeros((300, 300, 3), np.uint8)
 canvas[:, 150:, :] = (255, 255, 255)
-cv2.putText(canvas, "CNN", (40, 150), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
-cv2.putText(canvas, "FFNN", (185, 150), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
+cv2.putText(canvas, "Click on model", (60, 30), cv2.FONT_HERSHEY_COMPLEX, 0.7, colorText, 2)
+cv2.putText(canvas, "to select it", (85, 60), cv2.FONT_HERSHEY_COMPLEX, 0.7, colorText, 2)
+cv2.putText(canvas, "Convolutional", (10, 135), cv2.FONT_HERSHEY_SIMPLEX, 0.6, colorText, 2)
+cv2.putText(canvas, "Neural Network", (3, 165), cv2.FONT_HERSHEY_SIMPLEX, 0.6, colorText, 2)
+cv2.putText(canvas, "Feed Forward", (160, 135), cv2.FONT_HERSHEY_SIMPLEX, 0.6, colorText, 2)
+cv2.putText(canvas, "Neural Network", (153, 165), cv2.FONT_HERSHEY_SIMPLEX, 0.6, colorText, 2)
 modelName = None
 
 
 def selectModel(event, x, y, *otherParams):
     if event == cv2.EVENT_LBUTTONDOWN:
         global modelName
-        modelName = "CNN" if x <= 150 else "FFNN"
+        modelName = "cnn" if x <= 150 else "ffnn"
 
 
 cv2.namedWindow("Select model")  
@@ -38,8 +44,12 @@ cv2.destroyWindow("Select model")
 # create canvas for color selection
 canvas = np.zeros((300, 300, 3), np.uint8)
 canvas[:, 150:, :] = (255, 255, 255)
-cv2.putText(canvas, "Black", (30, 150), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
-cv2.putText(canvas, "White", (175, 150), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 2)
+cv2.putText(canvas, "Click on color", (60, 30), cv2.FONT_HERSHEY_COMPLEX, 0.7, colorText, 2)
+cv2.putText(canvas, "to select it", (85, 60), cv2.FONT_HERSHEY_COMPLEX, 0.7, colorText, 2)
+cv2.putText(canvas, "Black", (45, 135), cv2.FONT_HERSHEY_COMPLEX, 0.7, colorText, 2)
+cv2.putText(canvas, "Canvas", (35, 165), cv2.FONT_HERSHEY_COMPLEX, 0.7, colorText, 2)
+cv2.putText(canvas, "White", (195, 135), cv2.FONT_HERSHEY_COMPLEX, 0.7, colorText, 2)
+cv2.putText(canvas, "Canvas", (185, 165), cv2.FONT_HERSHEY_COMPLEX, 0.7, colorText, 2)
 colorName = None
 
 
@@ -61,7 +71,7 @@ cv2.destroyWindow("Select color")
 # LOAD MODEL
 # ##########
 
-if modelName == "FFNN":
+if modelName == "ffnn":
     class Net(nn.Module):
         def __init__(self, hid1, hid2):
             super(Net, self).__init__()
@@ -84,7 +94,7 @@ if modelName == "FFNN":
     pth = os.path.join(os.getcwd(), "models")
     model.load_state_dict(torch.load(pth + "/model_ffnn.pth"))
 
-elif modelName == "CNN":
+elif modelName == "cnn":
     class Net(nn.Module):
         def __init__(self, hid1, hid2):
             super(Net, self).__init__()
@@ -140,14 +150,24 @@ elif modelName == "CNN":
 # CREATE CANVAS
 # #############
 
-w, h = 300, 300
+w, h = 300, 400
 canvas = np.zeros((h, w, 3), np.uint8)  # create canvas
-title = np.zeros((30, w, 3), np.uint8)  # create title
+header = np.zeros((30, w, 3), np.uint8)  # create header
+footer = np.zeros((60, w, 3), np.uint8)  # create footer
+
+# initialize color
 canvasColor = (255, 255, 255) if colorName == "white" else (0, 0, 0)  # color for canvas
-titleColor = (205, 205, 205) if colorName == "white" else (50, 50, 50)  # color for title
+headerColor = (205, 205, 205) if colorName == "white" else (50, 50, 50)  # color for header
+footerColor = (205, 205, 205) if colorName == "white" else (50, 50, 50)  # color for footer
 penColor = (0, 0, 0) if colorName == "white" else (255, 255, 255)  # color for painting
-canvas[:, :, :] = canvasColor  # change color for canvas
-title[:, :, :] = titleColor  # change color for title
+
+# change color
+canvas[:, :, :] = canvasColor  # color for canvas
+header[:, :, :] = headerColor  # color for header
+footer[:, :, :] = footerColor  # color for footer
+cv2.putText(footer, "Left mouse button to draw", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, colorText, 2)
+cv2.putText(footer, "Right mouse button to clear", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, colorText, 2)
+canvas[340:, :, :] = footer
 flag = False
 
 
@@ -159,26 +179,26 @@ def drawCircle(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
         flag = True
         cv2.circle(canvas, (x,y), 15, penColor, -1)
-        title[:, :, :] = titleColor
+        header[:, :, :] = headerColor
     elif event == cv2.EVENT_LBUTTONUP:
         flag = False
 
     # draw
     if flag and event == cv2.EVENT_MOUSEMOVE:
         cv2.circle(canvas, (x,y), 15, penColor, -1)
-        title[:, :, :] = titleColor
+        header[:, :, :] = headerColor
 
     # clear
     if not flag and event == cv2.EVENT_RBUTTONDOWN:
-        canvas[:, :, :] = canvasColor
-        title[:, :, :] = titleColor
+        canvas[:340, :, :] = canvasColor
+        header[:, :, :] = headerColor
 
 
 cv2.namedWindow("canvas")  
 cv2.setMouseCallback("canvas", drawCircle)
 while True:
     # image processing
-    img = canvas[30:, :, :].copy()  # copy canvas without title
+    img = canvas[30:340, :, :].copy()  # copy canvas without header and footer
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # change image color to gray
     img = cv2.resize(img, (28, 28))  # image resize to 28*28
     img = torch.from_numpy(img)  # image to tensor
@@ -186,7 +206,7 @@ while True:
         img = 255.0 - img  # image inversion
     
     img = img / 255.0  # image normalize
-    if modelName == "CNN":
+    if modelName == "cnn":
         img = img.unsqueeze(0)  # add 'batch size'  img.shape = (B, W, H)
         img = img.unsqueeze(1)  # add 'channel'  img.shape = (B, C, W, H)
     
@@ -198,9 +218,9 @@ while True:
     result = f"{predNumber} ({predAccuracy :.2f}%)"
     
     # show
-    cv2.putText(title, "Number:", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
-    cv2.putText(title, result, (95, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
-    canvas[:30, :] = title
+    cv2.putText(header, "Number:", (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, colorText, 2)
+    cv2.putText(header, result, (95, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, colorText, 2)
+    canvas[:30, :, :] = header
     cv2.imshow("canvas", canvas)
     if cv2.waitKey(1) & 0xFF == ord("q"):  
         break
