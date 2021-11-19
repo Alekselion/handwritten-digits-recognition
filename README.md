@@ -514,6 +514,8 @@ cv2.destroyWindow("Sample canvas")
 
 Output
 
+![canvas](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/illustrations/gui_canvas.jpg)
+
 
 Load model
 ```Python
@@ -672,4 +674,4 @@ cv2.destroyAllWindows()
 
 Result
 
-![res](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/illustrations/draw_digit.gif)
+![res](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/illustrations/gui_result.gif)
