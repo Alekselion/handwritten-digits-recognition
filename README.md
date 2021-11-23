@@ -1,8 +1,11 @@
 # Handwritten digits recognition
+<p align="center">
+  <img src="https://github.com/Alekselion/handwritten-digits-recognition/blob/master/illustrations/digits.png">
+</p>
+
 Creating 2 neural networks models (feedforward and convolutional) using [PyTorch](https://pytorch.org/get-started/locally/) with CUDA and dataset [MNIST](https://deepai.org/dataset/mnist). Building GUI using [OpenCV](https://pypi.org/project/opencv-python/).
 
------
-
+## Content
 - Feedforward Neural Network ([full code](https://github.com/Alekselion/handwritten-digits-recognition/blob/master/model_ffnn.ipynb))
    - Create model
    - Train model
